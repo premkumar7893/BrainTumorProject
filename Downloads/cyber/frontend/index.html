@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CyberGuard AI - Real-time AI-driven network threat identification and traffic monitoring dashboard.">
+    <title>CyberGuard AI | Network Threat Intelligence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-grid"></div>
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
+    <div class="bg-glow glow-3"></div>
+
+    <div class="app-container">
+        <!-- Sidebar -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.35C17.25 22.15 21 17.25 21 12V7L12 2Z" fill="url(#shieldGrad)"/>
+                            <path d="M9 12l2 2 4-4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <defs>
+                                <linearGradient id="shieldGrad" x1="3" y1="2" x2="21" y2="22" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#00f2fe"/>
+                                    <stop offset="1" stop-color="#4776e6"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <div class="logo-text">
+                        <span class="logo-name">CyberGuard</span>
+                        <span class="logo-tag">AI v2.0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <span class="nav-label">NAVIGATION</span>
+                <ul class="nav-links">
+                    <li class="active" data-section="dashboard" id="nav-dashboard">
+                        <span class="nav-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+                                <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+                            </svg>
+                        </span>
+                        <span>Dashboard</span>
+                        <span class="nav-badge">LIVE</span>
+                    </li>
+                    <li data-section="visuals" id="nav-visuals">
+                        <span class="nav-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/>
+                            </svg>
+                        </span>
+                        <span>Visualizations</span>
+                    </li>
+                    <li data-section="simulator" id="nav-simulator">
+                        <span class="nav-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="5,3 19,12 5,21 5,3"/>
+                            </svg>
+                        </span>
+                        <span>Traffic Simulator</span>
+                    </li>
+                    <li data-section="about" id="nav-about">
+                        <span class="nav-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/>
+                                <line x1="12" y1="16" x2="12.01" y2="16"/>
+                            </svg>
+                        </span>
+                        <span>About System</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="system-status-card">
+                    <div class="status-indicator">
+                        <span class="status-dot pulse-green"></span>
+                        <span class="status-label">System Online</span>
+                    </div>
+                    <div class="status-detail">All services operational</div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="content">
+            <!-- Top Header Bar -->
+            <header class="top-bar">
+                <div class="page-title">
+                    <h1 id="pageTitle">Network Threat Intelligence</h1>
+                    <p id="pageSubtitle">Real-time AI-powered threat detection and traffic analysis</p>
+                </div>
+                <div class="header-actions">
+                    <div class="time-display" id="timeDisplay"></div>
+                    <div class="threat-level" id="threatLevel">
+                        <span class="tl-dot"></span>
+                        <span class="tl-label">THREAT LEVEL: <strong id="threatText">LOW</strong></span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- ========== DASHBOARD SECTION ========== -->
+            <section id="dashboard" class="page-section active">
+                <!-- Metrics Row -->
+                <div class="metrics-grid">
+                    <div class="metric-card" id="card-accuracy">
+                        <div class="metric-header">
+                            <span class="metric-label">Model Accuracy</span>
+                            <div class="metric-icon accuracy-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22,4 12,14.01 9,11.01"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="metric-value" id="accValue">
+                            <span class="value-number">--</span><span class="value-unit">%</span>
+                        </div>
+                        <div class="metric-bar">
+                            <div class="metric-bar-fill accuracy-fill" id="accBar" style="width:0%"></div>
+                        </div>
+                        <div class="metric-footer">
+                            <span class="metric-trend up">↑ Stable</span>
+                            <span class="metric-desc">Random Forest</span>
+                        </div>
+                    </div>
+
+                    <div class="metric-card" id="card-precision">
+                        <div class="metric-header">
+                            <span class="metric-label">Precision</span>
+                            <div class="metric-icon precision-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="metric-value" id="precValue">
+                            <span class="value-number">--</span><span class="value-unit">%</span>
+                        </div>
+                        <div class="metric-bar">
+                            <div class="metric-bar-fill precision-fill" id="precBar" style="width:0%"></div>
+                        </div>
+                        <div class="metric-footer">
+                            <span class="metric-trend up">↑ Stable</span>
+                            <span class="metric-desc">Attack Detection</span>
+                        </div>
+                    </div>
+
+                    <div class="metric-card" id="card-recall">
+                        <div class="metric-header">
+                            <span class="metric-label">Recall</span>
+                            <div class="metric-icon recall-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                                    <path d="M3 3v5h5"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="metric-value" id="recValue">
+                            <span class="value-number">--</span><span class="value-unit">%</span>
+                        </div>
+                        <div class="metric-bar">
+                            <div class="metric-bar-fill recall-fill" id="recBar" style="width:0%"></div>
+                        </div>
+                        <div class="metric-footer">
+                            <span class="metric-trend up">↑ Stable</span>
+                            <span class="metric-desc">True Positive Rate</span>
+                        </div>
+                    </div>
+
+                    <div class="metric-card" id="card-f1">
+                        <div class="metric-header">
+                            <span class="metric-label">F1-Score</span>
+                            <div class="metric-icon f1-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26 12,2"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="metric-value" id="f1Value">
+                            <span class="value-number">--</span><span class="value-unit">%</span>
+                        </div>
+                        <div class="metric-bar">
+                            <div class="metric-bar-fill f1-fill" id="f1Bar" style="width:0%"></div>
+                        </div>
+                        <div class="metric-footer">
+                            <span class="metric-trend up">↑ Stable</span>
+                            <span class="metric-desc">Harmonic Mean</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart + Live Stats Row -->
+                <div class="dashboard-row">
+                    <div class="chart-card glass-card">
+                        <div class="card-header">
+                            <h3>Model Performance Comparison</h3>
+                            <span class="card-badge">Supervised vs Unsupervised</span>
+                        </div>
+                        <div class="chart-container">
+                            <img src="/visuals/model_comparison.png" alt="Model Comparison Chart" id="comparisonImg" class="chart-img">
+                        </div>
+                    </div>
+
+                    <div class="stats-panel">
+                        <div class="live-counter glass-card">
+                            <h4>Live Threat Monitor</h4>
+                            <div class="counter-grid">
+                                <div class="count-item">
+                                    <span class="count-num" id="cntTotal">0</span>
+                                    <span class="count-lbl">Packets Analyzed</span>
+                                </div>
+                                <div class="count-item">
+                                    <span class="count-num danger-num" id="cntAttack">0</span>
+                                    <span class="count-lbl">Attacks Detected</span>
+                                </div>
+                                <div class="count-item">
+                                    <span class="count-num safe-num" id="cntSafe">0</span>
+                                    <span class="count-lbl">Safe Packets</span>
+                                </div>
+                            </div>
+                            <div class="threat-bar-wrap">
+                                <span class="tb-label">Attack Ratio</span>
+                                <div class="threat-bar-outer">
+                                    <div class="threat-bar-inner" id="threatBar" style="width:0%"></div>
+                                </div>
+                                <span class="tb-pct" id="threatPct">0%</span>
+                            </div>
+                        </div>
+
+                        <div class="model-info glass-card">
+                            <h4>Models Deployed</h4>
+                            <div class="model-list">
+                                <div class="model-item">
+                                    <div class="model-dot green"></div>
+                                    <div class="model-detail">
+                                        <span class="model-name">Random Forest</span>
+                                        <span class="model-role">Supervised Classifier</span>
+                                    </div>
+                                    <span class="model-status-badge active">Active</span>
+                                </div>
+                                <div class="model-item">
+                                    <div class="model-dot cyan"></div>
+                                    <div class="model-detail">
+                                        <span class="model-name">Isolation Forest</span>
+                                        <span class="model-role">Anomaly Detector</span>
+                                    </div>
+                                    <span class="model-status-badge active">Active</span>
+                                </div>
+                                <div class="model-item">
+                                    <div class="model-dot purple"></div>
+                                    <div class="model-detail">
+                                        <span class="model-name">CICIDS2017</span>
+                                        <span class="model-role">Training Dataset</span>
+                                    </div>
+                                    <span class="model-status-badge info">Loaded</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========== VISUALIZATIONS SECTION ========== -->
+            <section id="visuals" class="page-section">
+                <div class="visuals-intro glass-card" style="margin-bottom:2rem;padding:1.5rem 2rem;display:flex;align-items:center;gap:1.5rem;">
+                    <div style="flex:1">
+                        <h3 style="margin-bottom:0.3rem;font-size:1.1rem;">AI-Generated Performance Reports</h3>
+                        <p style="color:var(--text-muted);font-size:0.85rem;">Confusion matrices and feature analysis generated from trained models on the CICIDS2017 dataset.</p>
+                    </div>
+                    <span class="card-badge" style="white-space:nowrap;">3 Charts</span>
+                </div>
+
+                <div class="visual-gallery">
+                    <div class="visual-card glass-card">
+                        <div class="card-header">
+                            <h3>Random Forest</h3>
+                            <span class="card-badge success-badge">Supervised</span>
+                        </div>
+                        <p class="visual-desc">Confusion matrix showing True Positives, False Positives, and misclassifications for the Random Forest model.</p>
+                        <div class="visual-img-wrap">
+                            <img src="/visuals/random_forest_cm.png" alt="Random Forest Confusion Matrix" class="visual-img">
+                        </div>
+                        <div class="visual-tags">
+                            <span class="tag">Accuracy</span><span class="tag">Classification</span><span class="tag">Attack Detection</span>
+                        </div>
+                    </div>
+
+                    <div class="visual-card glass-card">
+                        <div class="card-header">
+                            <h3>Isolation Forest</h3>
+                            <span class="card-badge info-badge">Unsupervised</span>
+                        </div>
+                        <p class="visual-desc">Confusion matrix for the Isolation Forest anomaly detector, which flags deviations from normal network behavior.</p>
+                        <div class="visual-img-wrap">
+                            <img src="/visuals/isolation_forest_cm.png" alt="Isolation Forest Confusion Matrix" class="visual-img">
+                        </div>
+                        <div class="visual-tags">
+                            <span class="tag">Anomaly</span><span class="tag">Unsupervised</span><span class="tag">Recall</span>
+                        </div>
+                    </div>
+
+                    <div class="visual-card glass-card full-width-card">
+                        <div class="card-header">
+                            <h3>Top 10 Discriminative Features</h3>
+                            <span class="card-badge warning-badge">Feature Engineering</span>
+                        </div>
+                        <p class="visual-desc">The most predictive network traffic features ranked by their relative importance score from the Random Forest gini impurity calculation.</p>
+                        <div class="visual-img-wrap wide">
+                            <img src="/visuals/feature_importance.png" alt="Feature Importance Chart" class="visual-img">
+                        </div>
+                        <div class="visual-tags">
+                            <span class="tag">Gini Impurity</span><span class="tag">Feature Selection</span><span class="tag">Network Traffic</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========== SIMULATOR SECTION ========== -->
+            <section id="simulator" class="page-section">
+                <div class="sim-header-bar glass-card">
+                    <div class="sim-info">
+                        <div class="sim-title-row">
+                            <div class="live-indicator">
+                                <span class="live-dot" id="liveDot"></span>
+                                <span id="liveLabel">OFFLINE</span>
+                            </div>
+                            <h2>Real-Time Traffic Monitor</h2>
+                        </div>
+                        <p>Randomly samples network packets and runs them through the Random Forest classifier in real-time.</p>
+                    </div>
+                    <div class="sim-controls">
+                        <button id="clearLog" class="btn-secondary">Clear Log</button>
+                        <button id="toggleSim" class="btn-primary">
+                            <span class="btn-icon">▶</span>
+                            <span class="btn-text">Start Live Feed</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="sim-stats-row">
+                    <div class="sim-stat glass-card">
+                        <span class="ss-num" id="simTotal">0</span>
+                        <span class="ss-lbl">Total Packets</span>
+                    </div>
+                    <div class="sim-stat glass-card">
+                        <span class="ss-num danger-num" id="simAttacks">0</span>
+                        <span class="ss-lbl">Attacks Found</span>
+                    </div>
+                    <div class="sim-stat glass-card">
+                        <span class="ss-num safe-num" id="simSafe">0</span>
+                        <span class="ss-lbl">Safe Packets</span>
+                    </div>
+                    <div class="sim-stat glass-card">
+                        <span class="ss-num cyan-num" id="simRate">0</span>
+                        <span class="ss-lbl">Packets/sec</span>
+                    </div>
+                </div>
+
+                <div class="log-container glass-card">
+                    <div class="log-header">
+                        <span class="log-title">
+                            <span class="mono-text">// </span>Packet Analysis Log
+                        </span>
+                        <span class="log-count" id="logCount">0 entries</span>
+                    </div>
+                    <div class="log-table-wrapper">
+                        <table class="log-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Packet ID</th>
+                                    <th>Ground Truth</th>
+                                    <th>AI Prediction</th>
+                                    <th>Confidence</th>
+                                    <th>Risk Level</th>
+                                    <th>Timestamp</th>
+                                </tr>
+                            </thead>
+                            <tbody id="logBody">
+                                <tr class="empty-row">
+                                    <td colspan="7">
+                                        <div class="empty-state">
+                                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                                                <polygon points="5,3 19,12 5,21 5,3"/>
+                                            </svg>
+                                            <p>Click "Start Live Feed" to begin monitoring</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========== ABOUT SECTION ========== -->
+            <section id="about" class="page-section">
+                <div class="about-grid">
+                    <div class="about-hero glass-card">
+                        <div class="about-icon">
+                            <svg width="60" height="60" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.35C17.25 22.15 21 17.25 21 12V7L12 2Z" fill="url(#aboutShield)"/>
+                                <path d="M9 12l2 2 4-4" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                                <defs>
+                                    <linearGradient id="aboutShield" x1="3" y1="2" x2="21" y2="22">
+                                        <stop stop-color="#00f2fe"/><stop offset="1" stop-color="#4776e6"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+                        <h2>AI-Based Network Threat Identification</h2>
+                        <p>A final-year engineering project demonstrating the application of machine learning to network security. The system uses both supervised and unsupervised learning to detect attacks in real-time network traffic.</p>
+                    </div>
+
+                    <div class="about-card glass-card">
+                        <h3>🔬 Technology Stack</h3>
+                        <div class="tech-list">
+                            <div class="tech-item"><span class="tech-key">Dataset</span><span class="tech-val">CICIDS2017 (Canadian Institute)</span></div>
+                            <div class="tech-item"><span class="tech-key">Supervised</span><span class="tech-val">Random Forest Classifier</span></div>
+                            <div class="tech-item"><span class="tech-key">Unsupervised</span><span class="tech-val">Isolation Forest</span></div>
+                            <div class="tech-item"><span class="tech-key">Backend</span><span class="tech-val">Python / Flask API</span></div>
+                            <div class="tech-item"><span class="tech-key">Libraries</span><span class="tech-val">scikit-learn, pandas, matplotlib</span></div>
+                            <div class="tech-item"><span class="tech-key">Frontend</span><span class="tech-val">HTML5 / CSS3 / Vanilla JS</span></div>
+                        </div>
+                    </div>
+
+                    <div class="about-card glass-card">
+                        <h3>⚙️ How It Works</h3>
+                        <div class="steps-list">
+                            <div class="step-item">
+                                <span class="step-num">01</span>
+                                <div>
+                                    <strong>Load & Preprocess</strong>
+                                    <p>Network traffic data from CICIDS2017 is cleaned, encoded, and scaled using StandardScaler.</p>
+                                </div>
+                            </div>
+                            <div class="step-item">
+                                <span class="step-num">02</span>
+                                <div>
+                                    <strong>Train Models</strong>
+                                    <p>Random Forest (100 trees) for supervised classification. Isolation Forest for anomaly detection.</p>
+                                </div>
+                            </div>
+                            <div class="step-item">
+                                <span class="step-num">03</span>
+                                <div>
+                                    <strong>Real-Time Predict</strong>
+                                    <p>Incoming packets are scaled and classified. Attack traffic triggers ALERT status immediately.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="about-card glass-card">
+                        <h3>📡 API Endpoints</h3>
+                        <div class="api-list">
+                            <div class="api-item">
+                                <span class="api-method get">GET</span>
+                                <code>/api/metrics</code>
+                                <span class="api-desc">Model performance metrics</span>
+                            </div>
+                            <div class="api-item">
+                                <span class="api-method get">GET</span>
+                                <code>/api/simulate/batch</code>
+                                <span class="api-desc">5 random packet predictions</span>
+                            </div>
+                            <div class="api-item">
+                                <span class="api-method get">GET</span>
+                                <code>/visuals/&lt;filename&gt;</code>
+                                <span class="api-desc">Serve chart images</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="static/script.js"></script>
+</body>
+</html>
